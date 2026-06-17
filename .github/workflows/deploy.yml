@@ -41,6 +41,8 @@ jobs:
 
       - name: Build
         run: yarn frontend:build
+        env:
+          VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

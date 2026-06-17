@@ -1,4 +1,4 @@
-// store/mocks/product-mocks.ts
+// store/workers/product-worker.ts
 
 import type { Product, ProductId, ShopId } from "@/types";
 import { fakerRU as faker } from "@faker-js/faker";
@@ -76,11 +76,13 @@ const getHashCode = (str: string): number => {
   return Math.floor((state / m) * 1000);
 };
 
+/*
 function assertBrowser(): void {
   if (typeof window === "undefined") {
     throw new Error("generateProductImage32 can only be used in browser environment");
   }
 }
+*/
 
 const symbolCache = new Map<MarketCategory, string>();
 const getCategorySymbol = (category: MarketCategory): string => {
@@ -113,7 +115,7 @@ const getCategorySymbol = (category: MarketCategory): string => {
 const DOT_PATTERN = `<pattern id="global-dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1.5" fill="white" fill-opacity="0.25" /></pattern><rect width="600" height="400" fill="url(#global-dots)" />`;
 const imageCache = new Map<string, string>();
 export const generateProductImage32 = (category: MarketCategory, seedId: string): string => {
-  assertBrowser();
+  //assertBrowser();
   const cacheKey = `${category}|${seedId}`;
   if (imageCache.has(cacheKey)) return imageCache.get(cacheKey)!;
   const idHash = getHashCode(seedId);
@@ -204,4 +206,13 @@ export const filterProducts = <T extends { search?: string; category?: string }>
     result = result.filter((p) => p.name.toLowerCase().includes(lowerSearch));
   }
   return result;
+};
+
+self.onmessage = (e: MessageEvent) => {
+  const { type, payload } = e.data;
+  if (type === "GENERATE_PRODUCTS") {
+    const count = payload?.count ?? 10;
+    const products = generateProducts(count);
+    self.postMessage({ type: "GENERATE_PRODUCTS_RESULT", products });
+  }
 };

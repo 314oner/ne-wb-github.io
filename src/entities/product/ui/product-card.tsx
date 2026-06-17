@@ -11,7 +11,7 @@ interface ProductCardProps {
   horizontal?: boolean;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, horizontal = false }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, horizontal = false }) => {
   const { _id, name, price, image, shop, created } = product;
 
   const formattedDate = new Date(created).toLocaleDateString(undefined, {
@@ -63,3 +63,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, horizontal = 
     </article>
   );
 };
+
+export const MemoizedProductCard = React.memo(ProductCard);
+
+export { ProductCard };
+export default MemoizedProductCard;

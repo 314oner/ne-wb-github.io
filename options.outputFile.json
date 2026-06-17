@@ -2,11 +2,11 @@
   "largestChunk": {
     "name": "Largest file size",
     "extension": "js",
-    "value": 875.03,
+    "value": 875.23,
     "unit": "KiB"
   },
   "assets": {
-    "value": 1047.15,
+    "value": 1049.15,
     "name": "Assets size",
     "extension": "",
     "unit": "KiB"
@@ -15,24 +15,24 @@
     "css": {
       "name": ".css files size",
       "extension": "css",
-      "value": 55.17,
+      "value": 55.4,
       "unit": "KiB"
     },
     "js": {
       "name": ".js files size",
       "extension": "js",
-      "value": 991.97,
+      "value": 993.72,
       "unit": "KiB"
     }
   },
   "bundle": {
-    "value": 1047.15,
+    "value": 1049.15,
     "name": "Bundle size including assets",
     "extension": "",
     "unit": "KiB"
   },
   "buildTime": {
-    "value": 10.534,
+    "value": 9.843,
     "name": "Build time",
     "extension": "",
     "unit": "seconds"

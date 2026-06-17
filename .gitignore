@@ -55,7 +55,15 @@ yarn-error.log*
 !.env.example
 !.env.vault
 
-# Yarn
+# Yarn Berry
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.yarn/cache
+.yarn/install-state.gz
 .pnp.cjs
 .pnp.loader.mjs
 

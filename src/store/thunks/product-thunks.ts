@@ -1,7 +1,7 @@
 import type { CreateProductDto, Product, ProductId, ShopId, UpdateProductDto } from "@/types";
+import { filterProducts, mockCategories, mockLatestProducts, mockProducts, mockRelatedProducts, mockShopProducts } from "@/workers/product-worker";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../index";
-import { filterProducts, mockCategories, mockLatestProducts, mockProducts, mockRelatedProducts, mockShopProducts } from "../mocks/product-mocks";
 
 export const fetchLatestProducts = createAsyncThunk<Product[], void, { state: RootState }>("product/fetchLatest", async () => {
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -15,9 +15,10 @@ export const fetchCategories = createAsyncThunk<string[], void, { state: RootSta
 
 export const searchProducts = createAsyncThunk<Product[], { search?: string; category?: string }, { state: RootState }>(
   "product/search",
-  async ({ search, category }) => {
+  async ({ search, category }, { getState }) => {
     await new Promise((resolve) => setTimeout(resolve, 300));
-    return filterProducts(mockLatestProducts, { search, category });
+    const allProducts = (getState() as RootState).product.latest;
+    return filterProducts(allProducts, { search, category });
   },
 );
 

@@ -1,11 +1,23 @@
 // src/views/home/index.tsx
 
-import { Categories } from "@/widgets/categories/ui/categories";
-import { Search } from "@/widgets/search/ui/search";
-import { Suggestions } from "@/widgets/suggestions/ui/suggestions";
-import { useEffect } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 
-export const HomePage: React.FC = (): JSX.Element => {
+const Categories = lazy(() => import("@/widgets/categories/ui/categories"));
+const Search = lazy(() => import("@/widgets/search/ui/search"));
+const Suggestions = lazy(() => import("@/widgets/suggestions/ui/suggestions"));
+
+const WidgetFallback = () => (
+  <div className="bg-gray-100 dark:bg-gray-800 rounded-lg shadow p-4 animate-pulse">
+    <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-1/3 mb-4"></div>
+    <div className="space-y-3">
+      <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+      <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-5/6"></div>
+      <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-2/3"></div>
+    </div>
+  </div>
+);
+
+const HomePage: React.FC = () => {
   useEffect(() => {
     document.title = "Главная | Маркетплейс";
     return () => {
@@ -23,13 +35,19 @@ export const HomePage: React.FC = (): JSX.Element => {
           <h2 id="search-categories-heading" className="sr-only">
             Поиск и категории товаров
           </h2>
-          <Categories />
-          <Search />
+          <Suspense fallback={<WidgetFallback />}>
+            <Categories />
+          </Suspense>
+          <Suspense fallback={<WidgetFallback />}>
+            <Search />
+          </Suspense>
         </section>
 
         {/* Правая колонка: рекомендации */}
         <section className="lg:col-span-1" aria-labelledby="suggestions-heading">
-          <Suggestions title="Новинки" />
+          <Suspense fallback={<WidgetFallback />}>
+            <Suggestions title="Новинки" />
+          </Suspense>
         </section>
       </div>
     </main>

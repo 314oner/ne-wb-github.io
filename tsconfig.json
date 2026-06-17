@@ -25,7 +25,7 @@
       "@/*": ["./src/*"]
     },
     "baseUrl": "./",
-    "types": ["node", "cypress", "vite-plugin-pwa/client"]
+    "types": ["node", "cypress", "vite-plugin-pwa/client", "vite/client"]
   },
   "include": ["src"],
   "exclude": ["src/**/*.stories.ts"],

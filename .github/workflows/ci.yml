@@ -29,3 +29,5 @@ jobs:
 
       - name: Run Production Build
         run: yarn frontend:build
+        env:
+          VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}

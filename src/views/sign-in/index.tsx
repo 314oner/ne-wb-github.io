@@ -42,7 +42,15 @@ export const SignInPage = () => {
 
   const handleLogin = () => {
     if (authUrl) {
-      window.location.href = authUrl;
+      try {
+        const frontendCallback = window.location.origin + "/ne-wb-github.io/yandex/callback";
+        const urlObj = new URL(authUrl);
+        urlObj.searchParams.set("redirect_uri", frontendCallback);
+        window.location.href = urlObj.toString();
+      } catch (err) {
+        console.error("Ошибка при формировании ссылки перенаправления:", err);
+        window.location.href = authUrl;
+      }
     }
   };
 

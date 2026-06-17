@@ -43,9 +43,11 @@ export const SignInPage = () => {
   const handleLogin = () => {
     if (authUrl) {
       try {
-        const frontendCallback = window.location.origin + "/ne-wb-github.io/yandex/callback";
         const urlObj = new URL(authUrl);
+        const frontendCallback = "https://github.io";
+
         urlObj.searchParams.set("redirect_uri", frontendCallback);
+
         window.location.href = urlObj.toString();
       } catch (err) {
         console.error("Ошибка при формировании ссылки перенаправления:", err);
@@ -53,7 +55,6 @@ export const SignInPage = () => {
       }
     }
   };
-
   return (
     <main className="container mx-auto px-4 py-12 sm:py-16 max-w-md">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 sm:p-8 text-center">

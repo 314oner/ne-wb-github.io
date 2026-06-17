@@ -28,6 +28,6 @@ jobs:
         run: yarn tsc --noEmit
 
       - name: Run Production Build
-        run: yarn frontend:build
         env:
-          VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}
+          DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
+        run: yarn frontend:build

@@ -44,17 +44,12 @@ export const AuthCallbackHandler = () => {
     authApi
       .exchangeCode(code)
       .then((exchangeResponse) => {
-        const { token } = exchangeResponse.data;
+        const { token, user } = exchangeResponse.data;
         localStorage.setItem("token", token);
-        return authApi.getCurrentUser();
-      })
-      .then((userResponse) => {
-        if (userResponse) {
-          const userDto = userResponse.data;
-          const user = userMapper.toEntity(userDto);
-          dispatch(setCredentials({ user }));
-          navigate("/", { replace: true });
-        }
+        const userEntity = userMapper.toEntity(user);
+        dispatch(setCredentials({ user: userEntity }));
+
+        navigate("/", { replace: true });
       })
       .catch((err) => {
         console.error("Ошибка при авторизации:", err);

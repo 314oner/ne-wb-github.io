@@ -48,7 +48,7 @@ const router = createBrowserRouter(
         { path: "/auctions/all", element: OpenAuctionsPage },
         { path: "/auction/:auctionId", element: AuctionPage },
         { path: "/signin", element: SignInPage },
-        { path: "yandex/callback", element: AuthCallbackPage },
+        { path: "auth/callback", element: AuthCallbackPage },
         { path: "/user/:userId", element: ProfilePage },
         {
           element: <PrivateRoute />,

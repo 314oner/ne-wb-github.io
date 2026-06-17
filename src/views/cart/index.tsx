@@ -3,7 +3,11 @@
 import { CartItems } from "@/widgets/cart-items/ui/cart-items";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
-const CheckoutForm = lazy(() => import("@/features/checkout/ui/checkout-form").then((module) => ({ default: module.CheckoutForm })));
+const CheckoutForm = lazy(() =>
+  import("@/features/checkout/ui/checkout-form").then((module) => ({
+    default: module.CheckoutForm,
+  })),
+);
 
 export const CartPage: React.FC = () => {
   const [showCheckout, setShowCheckout] = useState<boolean>(false);
@@ -25,13 +29,15 @@ export const CartPage: React.FC = () => {
     <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
       <h1 className="text-2xl sm:text-3xl font-bold mb-6">Корзина</h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className={showCheckout ? "grid grid-cols-1 lg:grid-cols-2 gap-8" : "flex justify-center"}>
         {/* Секция с товарами */}
         <section aria-labelledby="cart-items-heading">
           <h2 id="cart-items-heading" className="sr-only">
             Товары в корзине
           </h2>
-          <CartItems onProceedToCheckout={handleProceedToCheckout} />
+          <div className={showCheckout ? "w-full max-w-lg mx-auto lg:mx-0" : "w-full max-w-lg"}>
+            <CartItems onProceedToCheckout={handleProceedToCheckout} />
+          </div>
         </section>
 
         {/* Секция оформления заказа */}

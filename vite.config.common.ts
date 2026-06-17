@@ -1,8 +1,20 @@
 import path from "path";
 import type { UserConfig } from "vite";
 
+function getBase(): string {
+  if (process.env.BASE_URL) {
+    return process.env.BASE_URL;
+  }
+
+  if (process.env.GITHUB_REPOSITORY) {
+    const repoName = process.env.GITHUB_REPOSITORY.split("/")[1];
+    return `/${repoName}/`;
+  }
+
+  return "/";
+}
 export const commonConfig: UserConfig = {
-  base: process.env.BASE_URL || "/",
+  base: getBase(),
   publicDir: "public",
   define: {
     global: "window",

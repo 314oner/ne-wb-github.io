@@ -6,6 +6,7 @@ on:
 
 jobs:
   build-and-test:
+    id: ci 
     runs-on: ubuntu-latest
 
     steps:

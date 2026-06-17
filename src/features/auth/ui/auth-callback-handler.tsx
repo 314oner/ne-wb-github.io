@@ -1,5 +1,3 @@
-// src/features/auth/ui/auth-callback-handler.tsx
-
 import { userMapper } from "@/entities/user/model/user.mapper";
 import { authApi } from "@/shared/api/auth-api";
 import { Spinner } from "@/shared/ui";
@@ -15,16 +13,34 @@ export const AuthCallbackHandler = () => {
 
   useEffect(() => {
     if (isExchanging.current) return;
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
+
+    const getCodeFromUrl = (): string | null => {
+      const hash = window.location.hash;
+      const search = window.location.search;
+
+      if (hash.includes("?")) {
+        const hashParams = new URLSearchParams(hash.split("?")[1]);
+        return hashParams.get("code");
+      }
+
+      if (search) {
+        const searchParams = new URLSearchParams(search);
+        return searchParams.get("code");
+      }
+
+      return null;
+    };
+
+    const code = getCodeFromUrl();
 
     if (!code) {
       console.error("Код авторизации не найден в URL");
-      navigate("/signin");
+      navigate("/signin", { replace: true });
       return;
     }
 
     isExchanging.current = true;
+
     authApi
       .exchangeCode(code)
       .then((exchangeResponse) => {
@@ -37,12 +53,12 @@ export const AuthCallbackHandler = () => {
           const userDto = userResponse.data;
           const user = userMapper.toEntity(userDto);
           dispatch(setCredentials({ user }));
-          navigate("/");
+          navigate("/", { replace: true });
         }
       })
       .catch((err) => {
         console.error("Ошибка при авторизации:", err);
-        navigate("/signin");
+        navigate("/signin", { replace: true });
       });
   }, [dispatch, navigate]);
 

@@ -42,17 +42,7 @@ export const SignInPage = () => {
 
   const handleLogin = () => {
     if (authUrl) {
-      try {
-        const urlObj = new URL(authUrl);
-        const frontendCallback = "https://github.io";
-
-        urlObj.searchParams.set("redirect_uri", frontendCallback);
-
-        window.location.href = urlObj.toString();
-      } catch (err) {
-        console.error("Ошибка при формировании ссылки перенаправления:", err);
-        window.location.href = authUrl;
-      }
+      window.location.href = authUrl;
     }
   };
   return (

@@ -88,7 +88,7 @@ export const ShopPage: React.FC = () => {
           alt={`Логотип магазина ${shop.name}`}
           className="w-32 sm:w-40 md:w-48 h-32 sm:h-40 md:h-48 object-cover rounded-lg shadow-md mx-auto md:mx-0"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = "/images/default-shop.jpg";
+            (e.target as HTMLImageElement).src = import.meta.env.BASE_URL + "images/default-shop.jpg";
           }}
         />
 

@@ -49,7 +49,7 @@ export const createProduct = createAsyncThunk<Product, CreateProductDto, { state
     category: productData.category || "",
     quantity: productData.quantity,
     price: productData.price,
-    image: "/images/placeholder.jpg",
+    image: `${import.meta.env.BASE_URL}images/placeholder.jpg`,
     shop: { _id: "s1" as ShopId, name: "Mock Shop" },
     created: new Date().toISOString(),
   };
@@ -65,7 +65,7 @@ export const updateProduct = createAsyncThunk<
   const { image, ...rest } = productData;
   const updatedFields: Partial<Product> = {
     ...rest,
-    ...(image ? { image: "/images/updated-product.jpg" } : {}),
+    ...(image ? { image: `${import.meta.env.BASE_URL}images/updated-product.jpg` } : {}),
   };
   return { productId, updatedProduct: updatedFields };
 });

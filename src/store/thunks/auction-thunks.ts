@@ -30,7 +30,7 @@ export const createAuction = createAsyncThunk<Auction, CreateAuctionDto, { state
     startingBid: formData.startingBid,
     bidStart: formData.bidStart,
     bidEnd: formData.bidEnd,
-    image: "/images/default-auction.jpg",
+    image: `${import.meta.env.BASE_URL}images/default-auction.jpg`,
     seller: {
       _id: currentUser?._id ?? ("anonymous" as UserId),
       name: currentUser?.name ?? "Anonymous",
@@ -49,7 +49,7 @@ export const updateAuction = createAsyncThunk<
 >("auction/update", async ({ auctionId, formData }) => {
   await new Promise((resolve) => setTimeout(resolve, 700));
   const { image, ...rest } = formData;
-  const updatedImage: string | undefined = image ? "/images/updated-auction.jpg" : undefined;
+  const updatedImage: string | undefined = image ? `${import.meta.env.BASE_URL}images/updated-auction.jpg` : undefined;
   return { auctionId, ...rest, image: updatedImage };
 });
 

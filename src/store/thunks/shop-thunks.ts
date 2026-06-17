@@ -31,7 +31,7 @@ export const createShop = createAsyncThunk<Shop, CreateShopDto, { state: RootSta
     _id: `shop_${Date.now()}` as ShopId,
     name: formData.name,
     description: formData.description,
-    image: "/images/default-shop.jpg",
+    image: `${import.meta.env.BASE_URL}images/default-shop.jpg`,
     owner: {
       _id: currentUser?._id ?? ("anonymous" as UserId),
       name: currentUser?.name ?? "Anonymous",
@@ -49,7 +49,7 @@ export const updateShop = createAsyncThunk<
 >("shop/update", async ({ shopId, formData }) => {
   await new Promise((resolve) => setTimeout(resolve, 700));
   const { image, ...rest } = formData;
-  const updatedImage: string | undefined = image ? "/images/updated-logo.png" : undefined;
+  const updatedImage: string | undefined = image ? `${import.meta.env.BASE_URL}images/updated-logo.png` : undefined;
   return { shopId, ...rest, image: updatedImage };
 });
 

@@ -1,12 +1,10 @@
 import axios from "axios";
-import { STAGE } from "./config/current-stage";
+import { API_URL } from "./config/service-path";
 
-const api = axios.create({
-  withCredentials: STAGE === "development" ? false : true,
-  baseURL: "https://nest-proto-hub-backend-dev-9.vercel.app",
-  headers: {
-    "Content-Type": "application/json",
-  },
+const publicClient = axios.create({
+  baseURL: API_URL,
+  withCredentials: false,
+  headers: { "Content-Type": "application/json" },
 });
 
-export default api;
+export default publicClient;

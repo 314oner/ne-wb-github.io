@@ -1,11 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
 on:
-  workflow_run:
-    workflows: ["CI-Check"]
+  push:
     branches: [main]
-    types:
-      - completed
 
 permissions:
   contents: read
@@ -13,22 +10,21 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  build-and-deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -36,13 +32,25 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v4
+        id: yarn-cache
+        with:
+          path: .yarn/cache
+          key: yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: yarn-
+
       - name: Install dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
 
-      - name: Build
+      - name: Type Check
+        run: yarn tsc --noEmit
+
+      - name: Build with dotenvx
         env:
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
-        run: yarn dlx @dotenvx/dotenvx run -- yarn run frontend:build
+        run: yarn dlx @dotenvx/dotenvx run -- yarn frontend:build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

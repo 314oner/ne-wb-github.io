@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_URL } from "./config/service-path";
 
 const authClient = axios.create({
-  baseURL: "https://nest-proto-hub-backend-dev-9.vercel.app",
+  baseURL: API_URL,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });

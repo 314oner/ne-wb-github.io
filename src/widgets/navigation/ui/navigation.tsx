@@ -41,7 +41,7 @@ export const Navigation: React.FC = () => {
       {!isAuthenticated ? (
         <>
           <NavLink to="/signin" className={linkClass}>
-            <HiLogin className="w-4 h-4" /> Sign In
+            <HiLogin className="w-4 h-4" /> Войти
           </NavLink>
         </>
       ) : (
